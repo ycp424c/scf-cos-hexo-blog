@@ -1,0 +1,19 @@
+Resources:
+  default: # namespace name
+    Type: 'TencentCloud::Serverless::Namespace'
+    publishCosBlog: # function name
+      Type: 'TencentCloud::Serverless::Function'
+      Properties:
+        Handler: scf_public.main_handler
+        Runtime: Nodejs8.9
+        CodeUri: './' 
+        Events:
+          apigw-trigger: # api gateway service name
+            Type: APIGW # trigger type
+            Properties:
+                StageName: release
+                HttpMethod: ANY
+                IntegratedResponse: true
+                Enable: true
+                ServiceId: service-h7z96bl8 # 这个ID没有什么特殊意义，就是为了不重复创建，随便搞个字符串就行
+                #NoRecreateOnDuplicateName: true
