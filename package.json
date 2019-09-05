@@ -34,7 +34,7 @@
 
   "husky": {
     "hooks": {
-      "pre-commit": "npm run remotePublish && git add"
+      // "pre-commit": "npm run remotePublish && git add"
     }
   }
 }
