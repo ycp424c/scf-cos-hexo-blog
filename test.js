@@ -1,2 +1,10 @@
 let h  = require('./scf_public').main_handler
-h()
+
+async function init(){
+	let ret = await h({queryString:{
+		method: 'comment'
+	}})
+	
+	console.log(ret)
+}
+init()
