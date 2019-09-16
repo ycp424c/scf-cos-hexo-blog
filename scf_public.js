@@ -2,6 +2,7 @@ const fs = require('fs')
 const path = require('path')
 const API_ROOT = path.resolve(__dirname,'./api')
 const {makeRetJson} = require('./lib/util')
+const {UNCAUGHT_ERROR} = require('./lib/errorCode')
 
 
 module.exports.main_handler = async function(event,context,callback){
@@ -22,7 +23,7 @@ module.exports.main_handler = async function(event,context,callback){
 			return await handler(param)
 		}catch(err){
 			return makeRetJson({
-				code: -100001,
+				code: UNCAUGHT_ERROR,
 				message: err.message
 			})
 		}

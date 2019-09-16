@@ -6,3 +6,4 @@ node_modules/
 public/
 .deploy*/
 cos_config.js
+.tcf_build/
