@@ -1,0 +1,10 @@
+{
+	"extends":["alloy"]
+	,"env":{
+		"node":true
+	}
+	,"rules":{
+		"semi":["error","never"],
+		"indent": ["error", 2]
+	}
+}

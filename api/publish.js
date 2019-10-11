@@ -1,36 +1,37 @@
 const config = require('../cos_config')
 const COS = require('cos-nodejs-sdk-v5')
-var walk = require('walk');
+let walk = require('walk')
 const path = require('path')
-const {makeRetJson} = require('../lib/util')
+const { makeRetJson } = require('../lib/util')
 
-module.exports = async function publish(){
-    const walker = walk.walk(path.resolve(__dirname,"../blog/public"));
-    const cos = new COS({
-        SecretId: config.secretId,
-        SecretKey: config.secretKey
+module.exports = async function publish() {
+  const walker = walk.walk(path.resolve(__dirname, '../blog/public'))
+  const cos = new COS({
+    SecretId: config.secretId,
+    SecretKey: config.secretKey
+  })
+
+  walker.on('file', function (root, fileStats, next) {
+    let filePath = root + '/' + fileStats.name
+    cos.sliceUploadFile({
+      Bucket: config.bucketName, // Bucket 格式：test-1250000000
+      Region: config.region,
+      Key: filePath.replace(/(.*?)(\/blog\/public\/)/, ''),
+      FilePath: filePath
+    }, function (err, data) {
+      console.error(err)
+      next()
     })
 
-    walker.on("file", function (root, fileStats, next) {
-        let filePath = root+'/'+fileStats.name
-        cos.sliceUploadFile({
-            Bucket: config.bucketName, // Bucket 格式：test-1250000000
-            Region: config.region,
-            Key: filePath.replace(/(.*?)(\/blog\/public\/)/,''),
-            FilePath: filePath
-        }, function (err, data) {
-            next()
-        });
-        
-    });
-    let ret = await new Promise((res)=>{
-        walker.on("end", function () {
-            console.log("all done");
-            res(makeRetJson({
-                code: 0,
-                message: 'publish success'
-            }))
-        });
+  })
+  let ret = await new Promise((res) => {
+    walker.on('end', function () {
+      console.log('all done')
+      res(makeRetJson({
+        code: 0,
+        message: 'publish success'
+      }))
     })
-    return ret
+  })
+  return ret
 }
