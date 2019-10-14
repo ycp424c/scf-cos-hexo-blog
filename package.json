@@ -6,8 +6,8 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "init": "npm i hexo-cli -g && hexo init blog && scf deploy -f",
-    "localPublish": "cd blog && hexo generate && cd .. -f && node test",
-    "remotePublish": "cd blog && hexo generate && cd .. -f && scf deploy -f && curl https://service-h7z96bl8-1259237915.gz.apigw.tencentcs.com/release/publishCosBlog?method=publish",
+    "localPublish": "cd blog && hexo generate && cd .. && node test",
+    "remotePublish": "cd blog && hexo generate && cd .. && scf deploy -f && curl https://service-h7z96bl8-1259237915.gz.apigw.tencentcs.com/release/publishCosBlog?method=publish",
     "lint": "eslint --fix --ext .js ./"
   },
   "repository": {
@@ -27,6 +27,7 @@
   "homepage": "https://github.com/ycp424c/scf-cos-hexo-blog#readme",
   "dependencies": {
     "cos-nodejs-sdk-v5": "^2.5.12",
+    "hexo-front-matter": "^1.0.0",
     "nodejieba": "^2.3.2"
   },
   "devDependencies": {

@@ -13,8 +13,8 @@ timezone:
 
 # URL
 ## If your site is put in a subdirectory, set url as 'http://yoursite.com/child' and root as '/child/'
-url: https://ycp424c-1259237915.cos-website.ap-guangzhou.myqcloud.com
-root: /
+url: https://service-cj0aeih8-1259237915.gz.apigw.tencentcs.com/release/publishCosBlog
+root: /release/publishCosBlog/
 permalink: :year/:month/:day/:title/
 permalink_defaults:
 
