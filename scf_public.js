@@ -1,14 +1,22 @@
 const fs = require('fs')
 const path = require('path')
-const {makeRetHtml, makeRetJson,CONST:{API_ROOT,PUBLIC_ROOT} } = require('./lib/util')
+const {makeRetStatic, makeRetJson,CONST:{API_ROOT,PUBLIC_ROOT} } = require('./lib/util')
 const { UNCAUGHT_ERROR } = require('./lib/errorCode')
 
 
 module.exports.main_handler = async function(event, context, callback) {
-    console.log(event.path)
-   console.log(path.resolve(PUBLIC_ROOT,event.path.replace('/publishCosBlog/',''))) 
-   console.log(fs.existsSync(path.resolve(PUBLIC_ROOT,event.path.replace('/publishCosBlog/',''))))
-  if (event && event.queryString && event.queryString.method && ((fs.existsSync(path.resolve(API_ROOT, event.queryString.method)) && fs.statSync(path.resolve(API_ROOT, event.queryString.method)).isDirectory() && fs.existsSync(path.resolve(API_ROOT, event.queryString.method, 'index.js')))) || (fs.existsSync(path.resolve(API_ROOT, `${event.queryString.method}.js`)))
+  // console.log(event.path)
+  // console.log(path.resolve(PUBLIC_ROOT,event.path.replace('/publishCosBlog/',''))) 
+  // console.log(fs.existsSync(path.resolve(PUBLIC_ROOT,event.path.replace('/publishCosBlog/',''))))
+  if (event 
+    && event.queryString 
+    && event.queryString.method 
+    && (
+      fs.existsSync(path.resolve(API_ROOT, event.queryString.method))
+      && fs.statSync(path.resolve(API_ROOT, event.queryString.method)).isDirectory() 
+      && fs.existsSync(path.resolve(API_ROOT, event.queryString.method, 'index.js'))
+    ) 
+    || (fs.existsSync(path.resolve(API_ROOT, `${event.queryString.method}.js`)))
   ) {
     try {
       let handler
@@ -32,9 +40,11 @@ module.exports.main_handler = async function(event, context, callback) {
       fs.existsSync(path.resolve(PUBLIC_ROOT,event.path.replace('/publishCosBlog/',''))) 
       || fs.existsSync(path.resolve(PUBLIC_ROOT,event.path.replace('/publishCosBlog/',''),'index.html')))){
     if(fs.existsSync(path.resolve(PUBLIC_ROOT,event.path.replace('/publishCosBlog/',''),'index.html'))){
-      return await makeRetHtml(path.resolve(PUBLIC_ROOT,event.path.replace('/publishCosBlog/',''),'index.html'))
+      let ret = await makeRetStatic(path.resolve(PUBLIC_ROOT,event.path.replace('/publishCosBlog/',''),'index.html'))
+      return ret
     }
-    return await makeRetHtml(path.resolve(PUBLIC_ROOT,event.path.replace('/publishCosBlog/',''))) 
+    let ret = await makeRetStatic(path.resolve(PUBLIC_ROOT,event.path.replace('/publishCosBlog/',''))) 
+    return ret
   } else {
     return makeRetJson({ code: 0, message: 'nothing to do' })
   }

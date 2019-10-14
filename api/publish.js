@@ -19,7 +19,7 @@ module.exports = async function publish() {
       Key: filePath.replace(/(.*?)(\/blog\/public\/)/, ''),
       FilePath: filePath
     }, function (err, data) {
-      console.error(err)
+      err && console.error(err)
       next()
     })
 
