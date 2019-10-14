@@ -18,6 +18,7 @@ module.exports = async function publish() {
       Region: config.region,
       Key: filePath.replace(/(.*?)(\/blog\/public\/)/, ''),
       FilePath: filePath
+      //eslint-disable-next-line no-unused-vars
     }, function (err, data) {
       err && console.error(err)
       next()

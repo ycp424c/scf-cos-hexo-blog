@@ -3,7 +3,7 @@ const path = require('path')
 const {makeRetStatic, makeRetJson,CONST:{API_ROOT,PUBLIC_ROOT} } = require('./lib/util')
 const { UNCAUGHT_ERROR } = require('./lib/errorCode')
 
-
+//eslint-disable-next-line no-unused-vars
 module.exports.main_handler = async function(event, context, callback) {
   // console.log(event.path)
   // console.log(path.resolve(PUBLIC_ROOT,event.path.replace('/publishCosBlog/',''))) 
@@ -20,7 +20,10 @@ module.exports.main_handler = async function(event, context, callback) {
   ) {
     try {
       let handler
-      if (fs.existsSync(path.resolve(API_ROOT, event.queryString.method)) && fs.statSync(path.resolve(API_ROOT, event.queryString.method)).isDirectory()) {
+      if (
+        fs.existsSync(path.resolve(API_ROOT, event.queryString.method)) 
+        && fs.statSync(path.resolve(API_ROOT, event.queryString.method)).isDirectory()
+      ) {
         handler = require(path.resolve(API_ROOT, event.queryString.method, 'index.js'))
       } else {
         handler = require(path.resolve(API_ROOT, `${event.queryString.method}.js`))
@@ -46,6 +49,6 @@ module.exports.main_handler = async function(event, context, callback) {
     let ret = await makeRetStatic(path.resolve(PUBLIC_ROOT,event.path.replace('/publishCosBlog/',''))) 
     return ret
   } else {
-    return makeRetJson({ code: 0, message: 'nothing to do' })
+    return makeRetJson({ code: 0, message: 'nothing to do'})
   }
 }
