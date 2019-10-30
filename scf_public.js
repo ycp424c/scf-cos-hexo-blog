@@ -2,12 +2,13 @@ const fs = require('fs')
 const path = require('path')
 const {makeRetStatic, makeRetJson,CONST:{API_ROOT,PUBLIC_ROOT} } = require('./lib/util')
 const { UNCAUGHT_ERROR } = require('./lib/errorCode')
+const {functionName} = require('./config')
 
 //eslint-disable-next-line no-unused-vars
 module.exports.main_handler = async function(event, context, callback) {
   // console.log(event.path)
-  // console.log(path.resolve(PUBLIC_ROOT,event.path.replace('/publishCosBlog/',''))) 
-  // console.log(fs.existsSync(path.resolve(PUBLIC_ROOT,event.path.replace('/publishCosBlog/',''))))
+  // console.log(path.resolve(PUBLIC_ROOT,event.path.replace(`/${functionName}/`,''))) 
+  // console.log(fs.existsSync(path.resolve(PUBLIC_ROOT,event.path.replace(`/${functionName}/`,''))))
   if (event 
     && event.queryString 
     && event.queryString.method 
@@ -40,15 +41,16 @@ module.exports.main_handler = async function(event, context, callback) {
   }if(event 
     && event.path 
     && (
-      fs.existsSync(path.resolve(PUBLIC_ROOT,event.path.replace('/publishCosBlog/',''))) 
-      || fs.existsSync(path.resolve(PUBLIC_ROOT,event.path.replace('/publishCosBlog/',''),'index.html')))){
-    if(fs.existsSync(path.resolve(PUBLIC_ROOT,event.path.replace('/publishCosBlog/',''),'index.html'))){
-      let ret = await makeRetStatic(path.resolve(PUBLIC_ROOT,event.path.replace('/publishCosBlog/',''),'index.html'))
+      fs.existsSync(path.resolve(PUBLIC_ROOT,event.path.replace(`/${functionName}/`,''))) 
+      || fs.existsSync(path.resolve(PUBLIC_ROOT,event.path.replace(`/${functionName}/`,''),'index.html')))){
+    if(fs.existsSync(path.resolve(PUBLIC_ROOT,event.path.replace(`/${functionName}/`,''),'index.html'))){
+      let ret = await makeRetStatic(path.resolve(PUBLIC_ROOT,event.path.replace(`/${functionName}/`,''),'index.html'))
       return ret
     }
-    let ret = await makeRetStatic(path.resolve(PUBLIC_ROOT,event.path.replace('/publishCosBlog/',''))) 
+    let ret = await makeRetStatic(path.resolve(PUBLIC_ROOT,event.path.replace(`/${functionName}/`,''))) 
     return ret
   } else {
-    return makeRetJson({ code: 0, message: 'nothing to do'})
+    let ret = await makeRetStatic(path.resolve(PUBLIC_ROOT,'index.html'))
+    return ret  
   }
 }

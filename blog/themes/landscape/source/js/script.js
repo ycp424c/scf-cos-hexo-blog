@@ -1,3 +1,5 @@
+const URL_BASE = 'https://service-h7z96bl8-1259237915.gz.apigw.tencentcs.com/release/publishCosBlog/';
+
 (function($) {
     // Search
     let $searchWrap = $('#search-form-wrap');
@@ -25,11 +27,51 @@
         });
     });
 
+    $('#header-inner')[0].style.overflow = 'visible'
+    $('.search-form-submit')[0].style.top = '13px'
     $('.search-form-input').on('blur', function() {
-        startSearchAnim();
-        $searchWrap.removeClass('on');
-        stopSearchAnim();
+        setTimeout(function(){
+            startSearchAnim();
+            $searchWrap.removeClass('on');
+            stopSearchAnim();
+        },100)     
     });
+    let inputArea = document.querySelector(".search-form-input");
+    inputArea.autocomplete = 'off'
+
+
+
+    function search(){
+        $.get(`${window.location.href}?method=search&param={"searchString":"${inputArea.value}"}`,data=>{
+            console.log(data)
+            if(data.code === 0 && data.result){
+                let parent = $('#search-form-wrap form')
+               let ele = document.querySelector('.search-result') ||  document.createElement('div')
+               ele.classList.add('search-result')
+               if(data.result.length === 0){
+                   ele.innerHTML = '<ul><li>无搜索结果</li></ul>'
+               }else{
+                   let htmlText = '<ul>'
+
+                   data.result.forEach(item=>{
+                       htmlText+= `<li><a href="${URL_BASE + item.date.split('T')[0].split('-').join('/')+ '/'+item.name.replace('.md','')}">${item.title}</a></li>`
+                   })
+                   htmlText += '</ul>'
+                   ele.innerHTML = htmlText
+               }
+               parent.append(ele)
+            }else{
+                alert('查找失败')
+            }
+        })
+    }
+
+    inputArea.onkeydown = function(){ 
+        if(event.keyCode == 13) {
+            search()
+            return false
+        }
+    }
 
     // Share
     $('body').on('click', function() {

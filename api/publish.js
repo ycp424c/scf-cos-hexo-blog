@@ -1,4 +1,4 @@
-const config = require('../cos_config')
+const config = require('../config')
 const COS = require('cos-nodejs-sdk-v5')
 let walk = require('walk')
 const path = require('path')

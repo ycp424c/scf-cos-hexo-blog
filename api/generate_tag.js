@@ -26,6 +26,7 @@ module.exports = async function(){
           }
         })
         if(keywordArr.length > 0){
+          console.log(postName,'generate tag success:',keywordArr.join('|'))
           postJson.tag = keywordArr
           fs.writeFileSync(postPath,HFM.stringify(postJson))
         }
