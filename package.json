@@ -26,14 +26,14 @@
   "homepage": "https://github.com/ycp424c/scf-cos-hexo-blog#readme",
   "dependencies": {
     "cos-nodejs-sdk-v5": "^2.5.12",
-    "hexo-front-matter": "^1.0.0",
+    "hexo-front-matter": "^5.0.0",
     "nodejieba": "^2.3.2"
   },
   "devDependencies": {
     "babel-eslint": "^10.0.3",
-    "eslint": "^6.5.1",
+    "eslint": "^10.9.1",
     "eslint-config-alloy": "^3.0.0",
-    "husky": "^3.0.5",
+    "husky": "^9.1.7",
     "walk": "^2.3.14"
   },
   "husky": {
